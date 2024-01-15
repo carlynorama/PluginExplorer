@@ -1,8 +1,8 @@
 //
-//  File.swift
+//  TellMeAboutYourself/plugin.swift
 //
 //
-//  Created by Carlyn on 1/14/24.
+//  Created by Carlyn Maw on 1/14/24.
 //
 
 import PackagePlugin
