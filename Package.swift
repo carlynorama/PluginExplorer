@@ -6,17 +6,15 @@ import PackageDescription
 let package = Package(
     name: "PluginExplorer",
     products: [
-        // Products can be used to vend plugins, making them visible to other packages.
-        .plugin(
-            name: "PluginExplorer",
-            targets: ["PluginExplorer"]),
+        .plugin(name: "TellMeAboutYourself",
+          targets: ["TellMeAboutYourself"])
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .plugin(
-            name: "PluginExplorer",
-            capability: .buildTool()
+            name: "TellMeAboutYourself",
+            capability: .command(intent: .custom(verb: "about",
+                                                 description: "See info about the package"),
+                                 permissions: [.writeToPackageDirectory(reason: "This plugin creates a file with information about the plugin and the package it's running on.")])
         ),
     ]
 )
