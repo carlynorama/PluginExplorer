@@ -19,6 +19,7 @@ struct TellMeAboutYourself: CommandPlugin {
         var message = "Arguments Info"
         message.append("\narguments:\(arguments)")
         var argExtractor = ArgumentExtractor(arguments)
+        message.append("\nargument extractor:\(argExtractor)")
         let targetNames = argExtractor.extractOption(named: "target")
         message.append("\nextracted names:\(targetNames)")
         
@@ -47,9 +48,10 @@ struct TellMeAboutYourself: CommandPlugin {
         }
         message.append("\n\n\n--------------------------------------------------------------------")
         message.append("\nFULL DUMP")
-        message.append("\nsourceModules: \(context.package.sourceModules)")
-        message.append("\nproducts:\(context.package.products)")
-        message.append("\ntargets:\(context.package.targets)")
+        message.append("\(context)")
+        //message.append("\nsourceModules: \(context.package.sourceModules)")
+        //message.append("\nproducts:\(context.package.products)")
+        //message.append("\ntargets:\(context.package.targets)")
         
         
         
