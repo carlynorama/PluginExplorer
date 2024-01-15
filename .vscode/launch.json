@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:PluginExplorer}",
+            "name": "Debug plugin-tester",
+            "program": "${workspaceFolder:PluginExplorer}/.build/debug/plugin-tester",
+            "preLaunchTask": "swift: Build Debug plugin-tester"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:PluginExplorer}",
+            "name": "Release plugin-tester",
+            "program": "${workspaceFolder:PluginExplorer}/.build/release/plugin-tester",
+            "preLaunchTask": "swift: Build Release plugin-tester"
+        }
+    ]
+}

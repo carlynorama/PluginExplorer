@@ -6,10 +6,21 @@ import PackageDescription
 let package = Package(
     name: "PluginExplorer",
     products: [
+        .executable(name:"plugin-tester", targets: ["plugin-tester"]),
         .plugin(name: "TellMeAboutYourself",
           targets: ["TellMeAboutYourself"])
     ],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.0"),
+    ],
     targets: [
+        .executableTarget(
+            name:"plugin-tester",
+            dependencies: [
+                .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            ],
+            path:"Sources/PluginTesterCLI"
+        ),
         .plugin(
             name: "TellMeAboutYourself",
             capability: .command(intent: .custom(verb: "about",
