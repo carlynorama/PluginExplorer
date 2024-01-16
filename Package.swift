@@ -20,6 +20,7 @@ let package = Package(
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ],
             path:"Sources/PluginTesterCLI",
+            exclude: ["Data"],
             plugins: ["MyInBuildPlugin"]
         ),
         .plugin(

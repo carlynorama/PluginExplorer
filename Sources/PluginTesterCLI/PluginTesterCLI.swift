@@ -14,3 +14,24 @@ struct PluginTesterCLI: AsyncParsableCommand {
     }
     }
 }
+
+
+extension PluginTesterCLI {
+    struct fruit_list: ParsableCommand {
+        mutating func run() throws {
+            print("Hello, fruitName!")
+        }
+    }
+}
+
+protocol Fruit {
+    var name:String {get}
+}
+
+struct Apple:Fruit {
+    let name:String
+}
+
+struct Banana:Fruit {
+    let name:String
+}
