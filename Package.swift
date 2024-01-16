@@ -19,7 +19,8 @@ let package = Package(
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
             ],
-            path:"Sources/PluginTesterCLI"
+            path:"Sources/PluginTesterCLI",
+            plugins: ["MyInBuildPlugin"]
         ),
         .plugin(
             name: "TellMeAboutYourself",
@@ -27,5 +28,7 @@ let package = Package(
                                                  description: "See info about the package"),
                                  permissions: [.writeToPackageDirectory(reason: "This plugin creates a file with information about the plugin and the package it's running on.")])
         ),
+        .executableTarget(name: "MyInBuildPluginTool"),
+        .plugin(name: "MyInBuildPlugin", capability: .buildTool(), dependencies: ["MyInBuildPluginTool"])
     ]
 )

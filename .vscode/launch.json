@@ -23,6 +23,54 @@
             "name": "Release plugin-tester",
             "program": "${workspaceFolder:PluginExplorer}/.build/release/plugin-tester",
             "preLaunchTask": "swift: Build Release plugin-tester"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:PluginExplorer}",
+            "name": "Debug MyInBuildPlugin",
+            "program": "${workspaceFolder:PluginExplorer}/.build/debug/MyInBuildPlugin",
+            "preLaunchTask": "swift: Build Debug MyInBuildPlugin"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:PluginExplorer}",
+            "name": "Release MyInBuildPlugin",
+            "program": "${workspaceFolder:PluginExplorer}/.build/release/MyInBuildPlugin",
+            "preLaunchTask": "swift: Build Release MyInBuildPlugin"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:PluginExplorer}",
+            "name": "Debug MyInBuildPluginTool",
+            "program": "${workspaceFolder:PluginExplorer}/.build/debug/MyInBuildPluginTool",
+            "preLaunchTask": "swift: Build Debug MyInBuildPluginTool"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:PluginExplorer}",
+            "name": "Release MyInBuildPluginTool",
+            "program": "${workspaceFolder:PluginExplorer}/.build/release/MyInBuildPluginTool",
+            "preLaunchTask": "swift: Build Release MyInBuildPluginTool"
         }
     ]
 }

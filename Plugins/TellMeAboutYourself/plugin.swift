@@ -55,7 +55,7 @@ struct TellMeAboutYourself: CommandPlugin {
         
         
         
-        var location = context.package.directory.appending([fileName])
+        let location = context.package.directory.appending([fileName])
         try writeToFile(location: location, content: message)
     }
     
