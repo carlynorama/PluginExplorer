@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "PluginExplorer",
+    platforms: [.macOS(.v13)],
     products: [
         .executable(name:"plugin-tester", targets: ["plugin-tester"]),
         .plugin(name: "TellMeAboutYourself",

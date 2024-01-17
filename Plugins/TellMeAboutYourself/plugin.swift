@@ -46,13 +46,38 @@ struct TellMeAboutYourself: CommandPlugin {
         for dir in targetDirectories {
             message.append(dir)
         }
+        
+        message.append("\n\nSwift Source Files")
+        let packageDir = context.package.directory.lastComponent
+        for target in targets {
+            //let targetDir = target.directory.lastComponent
+            if let sourceList = target.sourceModule?.sourceFiles(withSuffix: ".swift") {
+                sourceList.forEach({ sourceFile in
+                    let fullPath = sourceFile.path.string
+                    let range = fullPath.firstRange(of: "\(packageDir)")
+                    //if used .name instead of .directory.lastComponent
+                    //would need this redundancy for sure. probably overkill here.
+                    let pathStart = range?.lowerBound ?? fullPath.startIndex
+                    let relativePath = fullPath.suffix(from: pathStart)
+                    message.append("\n\(relativePath) \ttype:\(sourceFile.type)")
+                })
+            }
+        }
+
+        
+        
         message.append("\n\n\n--------------------------------------------------------------------")
-        message.append("\nFULL DUMP")
-        message.append("\(context)")
+        message.append("\nDUMPS\n")
+
+        //message.append("\(context)")
         //message.append("\nsourceModules: \(context.package.sourceModules)")
         //message.append("\nproducts:\(context.package.products)")
         //message.append("\ntargets:\(context.package.targets)")
         
+        //let sources = targets.map({ $0.sourceModule?.sourceFiles })
+        //message.append("\n\nsourceFiles:\(sources)")
+        
+
         
         
         let location = context.package.directory.appending([fileName])
