@@ -11,6 +11,11 @@ swift package $PLUGIN_VERB
 swift package --allow-writing-to-package-directory $PLUGIN_VERB
 ```
 
+## Handy Rule of Thumb
+
+- run on demand: command plugin
+- run only if resources are missing or stale: build plugin
+- run every build, before the build: pre-build plugin
             
 ## References
 - WWDC 2022 [Meet Swift Package plugins](https://developer.apple.com/videos/play/wwdc2022/110359)

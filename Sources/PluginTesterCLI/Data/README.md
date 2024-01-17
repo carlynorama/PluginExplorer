@@ -1,16 +1,17 @@
 #  About the Data Folder
 
-If you use Build Plugins (in-build or pre-build) to generate
-code from data/resources file you will have magic code in your 
-project that no one looking at your repo will be able inspect.
+If a Build Plugin (in-build or pre-build) generates code, 
+it will put the the generated files in the build folder, 
+not the source folder. This means the repo will be unbuildable
+without the plugin. This could be problematic, especially 
+if the plugin is pulled in from another package. 
+ 
+Essentially it makes the repository not archival on its own. 
 
-Especially if the plugin is pulled in from another package. 
+Please provide a description somewhere that will be on the 
+record of how the files are processed.  
  
-That's anti-helpful to anyone looking at your public code and 
-not archival. Please provide a description somewhere of how the 
-data files are processed.  
- 
-## Example Code Gen from MyInBuildPlugin
+## Example Code Generated from MyInBuildPlugin
 
 ```
 import Foundation
