@@ -1,1 +1,10 @@
 orange
+citron
+satsuma
+mandarin
+yuzu
+calamondin
+kumquat
+grapefruit
+lime
+lemon

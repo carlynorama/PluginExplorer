@@ -30,7 +30,7 @@ struct MyInBuildPlugin:BuildToolPlugin {
         let outputFiles:[Path] = [context.pluginWorkDirectory.appending([outputFileName])]
         
         
-        return [.buildCommand(displayName: "Test.",
+        return [.buildCommand(displayName: "Build the FruitStore",
                                          executable: try context.tool(named: "MyInBuildPluginTool").path,
                                          arguments: [dataDirectory.string, context.pluginWorkDirectory.string, outputFileName],
                                          inputFiles: dataContents,
