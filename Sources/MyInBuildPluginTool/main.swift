@@ -1,3 +1,5 @@
+//Print statements can be found in build log when run by build tool in Xcode
+
 import Foundation
 
 let arguments = ProcessInfo().arguments
@@ -30,7 +32,7 @@ try FileManager.default.contentsOfDirectory(atPath: inputDir).forEach { item in
     let base = item.prefix(upTo: extIndex!)
     let structName = base.capitalized
     generatedCode.append(generateStruct(structName: structName))
-    print("LOOK HERE!!!!!!!!!!!!", fileUrl) //<== WHERE DOES THIS GO??
+    print(fileUrl)
     let fruits = try String(contentsOf: fileUrl).split(separator: "\n")
     
     fruitStoreCode.append(generateAddToFruitStore(base: base, structName: structName, fruitList: fruits))

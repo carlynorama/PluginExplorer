@@ -11,6 +11,8 @@ import Foundation
 
 //more info: https://github.com/apple/swift-package-manager/blob/main/Documentation/Plugins.md#build-tool-plugins
 
+//Print statements can be found in build log in Xcode
+
 @main
 struct MyInBuildPlugin:BuildToolPlugin {
     func createBuildCommands(context: PackagePlugin.PluginContext, target: PackagePlugin.Target) async throws -> [PackagePlugin.Command] {
@@ -40,3 +42,25 @@ struct MyInBuildPlugin:BuildToolPlugin {
     
     
 }
+
+
+/*
+ //Example code from https://developer.apple.com/videos/play/wwdc2022/110401
+ //example returns several build commands, but each has known inputs and outputs.
+ //the advantage to this is that each file's staleness will be assessed independently. 
+ guard let target = target as? SourceModuleTarget else {
+     return []
+}
+
+return try target.sourceFiles(withSuffix: "xcassets").map { assetCatalog in
+     let base = assetCatalog.path.stem
+     let input = assetCatalog.path
+     let output = context.pluginWorkDirectory.appending(["\(base).swift"])
+
+     return .buildCommand(displayName: "Generating constants for \(base)",
+                          executable: try context.tool(named: "AssetConstantsExec").path,
+                          arguments: [input.string, output.string],
+                          inputFiles: [input],
+                          outputFiles: [output])
+ }
+ */

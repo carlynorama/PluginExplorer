@@ -5,6 +5,8 @@
 //  Created by Carlyn Maw on 1/14/24.
 //
 
+//Print statements can be found in build log in Xcode in "Package" section.
+
 import PackagePlugin
 import Foundation
 
