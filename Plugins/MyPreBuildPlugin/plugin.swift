@@ -14,13 +14,13 @@ struct MyPreBuildPlugin:BuildToolPlugin {
     func createBuildCommands(context: PackagePlugin.PluginContext, target: PackagePlugin.Target) async throws -> [PackagePlugin.Command] {
         let outputDir = context.pluginWorkDirectory//.appending(["snapshot.zip"])
         let folder = target.directory.lastComponent
-        //let zipNCleanCommand = "cd \(target.directory.removingLastComponent().string) && zip -r \(outputDir)/snapshot_$(date +'%Y-%m-%dT%H-%M-%S').zip \(folder) && cd - && cd \(outputDir) && ls -1t | tail -n +6 | xargs rm -f"
-        let zipCommand = "cd \(target.directory.removingLastComponent().string) && zip -r \(outputDir)/snapshot_$(date +'%Y-%m-%dT%H-%M-%S').zip \(folder)"
+        let zipNCleanCommand = "cd \(target.directory.removingLastComponent().string) && zip -r \(outputDir)/snapshot_$(date +'%Y-%m-%dT%H-%M-%S').zip \(folder) && cd - && cd \(outputDir) && ls -1t | tail -n +6 | xargs rm -f"
+        //let zipCommand = "cd \(target.directory.removingLastComponent().string) && zip -r \(outputDir)/snapshot_$(date +'%Y-%m-%dT%H-%M-%S').zip \(folder)"
         print("print from plugin.swift:", outputDir)
         var result:[PackagePlugin.Command] =  [.prebuildCommand(
             displayName: "------------ MyPreBuildPlugin ------------",
             executable: .init("/bin/zsh"), //also Path("/usr/bin/zip")
-            arguments: ["-c", zipCommand],
+            arguments: ["-c", zipNCleanCommand],
             //environment: T##[String : CustomStringConvertible],
             outputFilesDirectory: outputDir)
         ]
@@ -28,7 +28,7 @@ struct MyPreBuildPlugin:BuildToolPlugin {
         //works, but problematic b/c running it creates copy resources warnings & errors e.g.
         //WARNING: Skipping duplicate build file in Copy Bundle Resources build phase: Users/.../MyPreBuildPlugin/snapshot_2024-01-17T16-29-14.zip
         //FAILURE: CpResource... error: /Users/.../MyPreBuildPlugin/snapshot_2024-01-17T16-30-04.zip: No such file or directory (in target 'PluginExplorer_plugin-tester' from project 'PluginExplorer')
-        result.append(removeExcessFiles(directory: outputDir))
+        //result.append(removeExcessFiles(directory: outputDir))
         
         
         return result
