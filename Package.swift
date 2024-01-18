@@ -22,7 +22,7 @@ let package = Package(
             ],
             path:"Sources/PluginTesterCLI",
             exclude: ["Data"],
-            plugins: ["MyInBuildPlugin"]
+            plugins: ["MyInBuildPlugin", "MyPreBuildPlugin"]
         ),
         .plugin(
             name: "TellMeAboutYourself",
@@ -31,6 +31,8 @@ let package = Package(
                                  permissions: [.writeToPackageDirectory(reason: "This plugin creates a file with information about the plugin and the package it's running on.")])
         ),
         .executableTarget(name: "MyInBuildPluginTool"),
-        .plugin(name: "MyInBuildPlugin", capability: .buildTool(), dependencies: ["MyInBuildPluginTool"])
+        .plugin(name: "MyInBuildPlugin", capability: .buildTool(), dependencies: ["MyInBuildPluginTool"]),
+        
+        .plugin(name: "MyPreBuildPlugin", capability: .buildTool())
     ]
 )
