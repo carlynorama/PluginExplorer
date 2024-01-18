@@ -17,11 +17,11 @@ struct MyPreBuildPlugin:BuildToolPlugin {
         let zipNCleanCommand = "cd \(target.directory.removingLastComponent().string) && zip -r \(outputDir)/snapshot_$(date +'%Y-%m-%dT%H-%M-%S').zip \(folder) && cd - && cd \(outputDir) && ls -1t | tail -n +6 | xargs rm -f"
         //let zipCommand = "cd \(target.directory.removingLastComponent().string) && zip -r \(outputDir)/snapshot_$(date +'%Y-%m-%dT%H-%M-%S').zip \(folder)"
         print("from MPBP:", outputDir)
-       let result:[PackagePlugin.Command] =  [.prebuildCommand(
+        let result:[PackagePlugin.Command] =  [.prebuildCommand(
             displayName: "------------ MyPreBuildPlugin ------------",
             executable: .init("/bin/zsh"), //also Path("/bin/zsh")
             arguments: ["-c", zipNCleanCommand],
-            //environment: T##[String : CustomStringConvertible],
+            //environment: [:], manually clearing the environment did not help
             outputFilesDirectory: outputDir)
         ]
         
@@ -33,10 +33,11 @@ struct MyPreBuildPlugin:BuildToolPlugin {
         
         //As it turns out appending _any_ new command to the array triggers the warnings,
         //but no error when `zipNCleanCommand` is used.
+        //When run those same commands as their own plugin it's fine.
         
         //Have moved the ls and echo tests to ScreamIntoTheVoid plugin for more testing.
         
-
+        
         
         return result
     }
@@ -45,13 +46,14 @@ struct MyPreBuildPlugin:BuildToolPlugin {
     func removeExcessFiles(directory:Path) -> PackagePlugin.Command {
         let removeCommand = "cd \(directory.string) && ls -1t | tail -n +6 | xargs rm -f"
         return .prebuildCommand(displayName: "Remove Stalest",
-                         executable: .init("/bin/zsh"),
-                         arguments: ["-c", removeCommand],
-                         outputFilesDirectory: directory
+                                executable: .init("/bin/zsh"),
+                                arguments: ["-c", removeCommand],
+                                //environment: [:],
+                                outputFilesDirectory: directory
         )
     }
     
-
+    
 }
 
 
