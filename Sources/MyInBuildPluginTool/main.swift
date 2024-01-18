@@ -9,8 +9,8 @@ if arguments.count < 3 {
 
 let (inputDir, outputDir, outputFile) = (arguments[1], arguments[2], arguments[3])
 
-print(inputDir)
-print(outputDir)
+print("from MIBPT:", inputDir)
+print("from MIBPT:", outputDir)
 
 var output = URL(fileURLWithPath: outputDir)
 output.append(component: outputFile)
@@ -32,7 +32,7 @@ try FileManager.default.contentsOfDirectory(atPath: inputDir).forEach { item in
     let base = item.prefix(upTo: extIndex!)
     let structName = base.capitalized
     generatedCode.append(generateStruct(structName: structName))
-    print(fileUrl)
+    print("from MIBPT:", fileUrl)
     let fruits = try String(contentsOf: fileUrl).split(separator: "\n")
     
     fruitStoreCode.append(generateAddToFruitStore(base: base, structName: structName, fruitList: fruits))
