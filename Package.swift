@@ -22,7 +22,7 @@ let package = Package(
             ],
             path:"Sources/PluginTesterCLI",
             exclude: ["Data"],
-            plugins: ["MyInBuildPlugin", "MyPreBuildPlugin"]
+            plugins: ["MyInBuildPlugin", "MyPreBuildPlugin", "ScreamIntoTheVoid"]
         ),
         .plugin(
             name: "TellMeAboutYourself",
@@ -33,6 +33,10 @@ let package = Package(
         .executableTarget(name: "MyInBuildPluginTool"),
         .plugin(name: "MyInBuildPlugin", capability: .buildTool(), dependencies: ["MyInBuildPluginTool"]),
         
-        .plugin(name: "MyPreBuildPlugin", capability: .buildTool())
+        //prebuild tool that writes zip files to the directory using shell.
+        .plugin(name: "MyPreBuildPlugin", capability: .buildTool()),
+        
+        //prebuild tool to test running echo in its own script.
+        .plugin(name: "ScreamIntoTheVoid", capability: .buildTool())
     ]
 )

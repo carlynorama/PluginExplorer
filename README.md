@@ -11,6 +11,12 @@ swift package $PLUGIN_VERB
 swift package --allow-writing-to-package-directory $PLUGIN_VERB
 ```
 
+for creating tools and plugin packages
+```bash
+swift package init --type tool
+
+```
+
 ## Handy Rule of Thumb
 
 - run on demand: command plugin

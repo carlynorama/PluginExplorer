@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  MyPreBuildPlugin.swift
+//
 //
 //  Created by Carlyn Maw on 1/17/24.
 //
@@ -16,20 +16,27 @@ struct MyPreBuildPlugin:BuildToolPlugin {
         let folder = target.directory.lastComponent
         let zipNCleanCommand = "cd \(target.directory.removingLastComponent().string) && zip -r \(outputDir)/snapshot_$(date +'%Y-%m-%dT%H-%M-%S').zip \(folder) && cd - && cd \(outputDir) && ls -1t | tail -n +6 | xargs rm -f"
         //let zipCommand = "cd \(target.directory.removingLastComponent().string) && zip -r \(outputDir)/snapshot_$(date +'%Y-%m-%dT%H-%M-%S').zip \(folder)"
-        print("print from plugin.swift:", outputDir)
-        var result:[PackagePlugin.Command] =  [.prebuildCommand(
+        print("from MPBP:", outputDir)
+       let result:[PackagePlugin.Command] =  [.prebuildCommand(
             displayName: "------------ MyPreBuildPlugin ------------",
-            executable: .init("/bin/zsh"), //also Path("/usr/bin/zip")
+            executable: .init("/bin/zsh"), //also Path("/bin/zsh")
             arguments: ["-c", zipNCleanCommand],
             //environment: T##[String : CustomStringConvertible],
             outputFilesDirectory: outputDir)
         ]
         
-        //works, but problematic b/c running it creates copy resources warnings & errors e.g.
+        //works in that it makes files and deletes them, but problematic b/c running
+        //it creates copy resources warnings & errors e.g.
         //WARNING: Skipping duplicate build file in Copy Bundle Resources build phase: Users/.../MyPreBuildPlugin/snapshot_2024-01-17T16-29-14.zip
         //FAILURE: CpResource... error: /Users/.../MyPreBuildPlugin/snapshot_2024-01-17T16-30-04.zip: No such file or directory (in target 'PluginExplorer_plugin-tester' from project 'PluginExplorer')
         //result.append(removeExcessFiles(directory: outputDir))
         
+        //As it turns out appending _any_ new command to the array triggers the warnings,
+        //but no error when `zipNCleanCommand` is used.
+        
+        //Have moved the ls and echo tests to ScreamIntoTheVoid plugin for more testing.
+        
+
         
         return result
     }
@@ -43,7 +50,12 @@ struct MyPreBuildPlugin:BuildToolPlugin {
                          outputFilesDirectory: directory
         )
     }
+    
+
 }
+
+
+//------------------------------ MORE STORAGE
 //let outputFile = context.pluginWorkDirectory.appending(["snapshot.zip"])
 //return [.prebuildCommand(
 //    displayName: "------------ MyPreBuildPlugin ------------",
@@ -53,7 +65,7 @@ struct MyPreBuildPlugin:BuildToolPlugin {
 //    outputFilesDirectory: outputFile.removingLastComponent())
 //]
 
-//problematic because assembled at plugin build time
+//problematic because assembled at plugin build time not runtime?
 //func removeFile(directory:Path, file:String) -> PackagePlugin.Command {
 //    .prebuildCommand(displayName: "Remove Stalest",
 //                     executable: .init("/bin/rm"),
@@ -63,11 +75,4 @@ struct MyPreBuildPlugin:BuildToolPlugin {
 //}
 
 
-//Didn't work
-//        return [.prebuildCommand(
-//            displayName: "Test prebuild",
-//            executable: .init("usr/bin/ls"),
-//            arguments: ["-lta", context.package.directory.string, ">> \(outputDir)/mylog.txt"],
-//            //environment: T##[String : CustomStringConvertible],
-//            outputFilesDirectory: outputDir)
-//        ]
+
