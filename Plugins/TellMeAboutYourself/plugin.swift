@@ -35,7 +35,6 @@ struct TellMeAboutYourself: CommandPlugin {
         message.append("\nproducts:\(context.package.products.map({$0.name}))")
         message.append("\nall targets:\(context.package.targets.map({$0.name}))")
         
-        //https://github.com/apple/swift-package-manager/blob/4b7ee3e328dc8e7bec33d4d5d401d37abead6e41/Sources/PackageModel/Target/PluginTarget.swift#L13
         //Cannot find 'PluginTarget' in scope
         //SwiftSourceModuleTarget.self does work.
         //let specialTargets = context.package.targets(ofType: PluginTarget.self)
@@ -66,8 +65,6 @@ struct TellMeAboutYourself: CommandPlugin {
             }
         }
         
-        
-        
         message.append("\n\n\n--------------------------------------------------------------------")
         message.append("\nDUMPS\n")
         
@@ -78,9 +75,6 @@ struct TellMeAboutYourself: CommandPlugin {
         
         //let sources = targets.map({ $0.sourceModule?.sourceFiles })
         //message.append("\n\nsourceFiles:\(sources)")
-        
-        
-        
         
         let location = context.package.directory.appending([fileName])
         try writeToFile(location: location, content: message)
@@ -122,15 +116,8 @@ extension TellMeAboutYourself: XcodeCommandPlugin {
         message.append("\nfilePaths: \(context.xcodeProject.filePaths)")
         message.append("\nall targets:\(context.xcodeProject.targets.map({$0.displayName}))")
         
-        //https://github.com/apple/swift-package-manager/blob/4b7ee3e328dc8e7bec33d4d5d401d37abead6e41/Sources/PackageModel/Target/PluginTarget.swift#L13
-        //Cannot find 'PluginTarget' in scope
-        //SwiftSourceModuleTarget.self does work.
-        //let specialTargets = context.package.targets(ofType: PluginTarget.self)
-        
         //Nope. No plugins in here.
         let targets = context.xcodeProject.targets
-        //FWIW not even if you asked for them explicitly.
-        //let targets = try context.package.targets(named: targetNames)
         let targetDirectories = targets.map({"\n\($0.displayName) of type \(String(describing: $0.product))"})
         for dir in targetDirectories {
             message.append(dir)
@@ -144,8 +131,6 @@ extension TellMeAboutYourself: XcodeCommandPlugin {
                 sourceList.forEach({ sourceFile in
                     let fullPath = sourceFile.path.string
                     let range = fullPath.firstRange(of: "\(packageDir)")
-                    //if used .name instead of .directory.lastComponent
-                    //would need this redundancy for sure. probably overkill here.
                     let pathStart = range?.lowerBound ?? fullPath.startIndex
                     let relativePath = fullPath.suffix(from: pathStart)
                     message.append("\n\(relativePath) \ttype:\(sourceFile.type)")
@@ -159,15 +144,6 @@ extension TellMeAboutYourself: XcodeCommandPlugin {
         message.append("\nDUMPS\n")
         
         //message.append("\(context)")
-        //message.append("\nsourceModules: \(context.package.sourceModules)")
-        //message.append("\nproducts:\(context.package.products)")
-        //message.append("\ntargets:\(context.package.targets)")
-        
-        //let sources = targets.map({ $0.sourceModule?.sourceFiles })
-        //message.append("\n\nsourceFiles:\(sources)")
-        
-        
-        
         
         let location = context.xcodeProject.directory.appending([fileName])
         try writeToFile(location: location, content: message)
