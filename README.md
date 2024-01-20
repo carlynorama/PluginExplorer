@@ -31,12 +31,20 @@ swift package init --type command-plugin
 - Code only associated with a `.plugin` target doesn't get swept up in targets, and build problems can only be found in the build logs. Code also in its own stand alone tool does get more regular treatment. Prioritize putting as much as possible into a tool and as little a possible only in a plugin. 
 - Write the tool and get it completely working, then write the plugin.
 - stdout for a tool does not always work as expected. 
+- For two plugins to share code they need to both depend on the same executable or a binary, not a library target. [See discussion](https://forums.swift.org/t/difficulty-sharing-code-between-swift-package-manager-plugins/61690/3)
             
 ## References
+
+### Official
 - WWDC 2022 [Meet Swift Package plugins](https://developer.apple.com/videos/play/wwdc2022/110359)
 - WWDC 2022 [Create Swift Package plugins](https://developer.apple.com/videos/play/wwdc2022/110401/)
 - https://github.com/apple/swift-package-manager/
 - https://forums.swift.org/t/pitch-package-manager-command-plugins/53172
 - https://github.com/apple/swift-evolution/blob/main/proposals/0332-swiftpm-command-plugins.md
-                                        
-                                           
+
+
+### Misc Interesting Repos
+- Example bringing in linting from `MessageKit` https://github.com/MessageKit/MessageKit/tree/3fab2f2d7f04b0f7ec19e2bfab0f614fef884ff8/Plugins
+- https://github.com/SwiftGen/SwiftGenPlugin
+- https://github.com/realm/SwiftLint/tree/main/Plugins/SwiftLintPlugin
+- https://github.com/apple/swift-docc-plugin
