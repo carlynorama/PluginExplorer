@@ -3,7 +3,7 @@
 
 Repo for exploring how to make Package Plugins.
             
-## Handy Commands
+## Handy Commands For Running Command Plugins 
 
 ```bash
 swift package plugin --list
@@ -11,7 +11,8 @@ swift package $PLUGIN_VERB
 swift package --allow-writing-to-package-directory $PLUGIN_VERB
 ```
 
-for creating tools and plugin packages
+# Handy Commands for Generating Projects
+
 ```bash
 swift package init --type tool #Comes with argument parser
 swift package init --type build-tool-plugin
@@ -41,6 +42,7 @@ swift package init --type command-plugin
 - https://github.com/apple/swift-package-manager/
 - https://forums.swift.org/t/pitch-package-manager-command-plugins/53172
 - https://github.com/apple/swift-evolution/blob/main/proposals/0332-swiftpm-command-plugins.md
+- https://github.com/apple/swift-package-manager/blob/main/Documentation/Plugins.md
 
 
 ### Misc Interesting Repos
@@ -48,3 +50,4 @@ swift package init --type command-plugin
 - https://github.com/SwiftGen/SwiftGenPlugin
 - https://github.com/realm/SwiftLint/tree/main/Plugins/SwiftLintPlugin
 - https://github.com/apple/swift-docc-plugin
+- https://github.com/apple/swift-openapi-generator/tree/main/Plugins
