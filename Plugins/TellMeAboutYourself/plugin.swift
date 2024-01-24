@@ -35,6 +35,7 @@ struct TellMeAboutYourself: CommandPlugin {
         message.append("\nproducts:\(context.package.products.map({$0.name}))")
         message.append("\nall targets:\(context.package.targets.map({$0.name}))")
         
+        //https://github.com/apple/swift-package-manager/blob/4b7ee3e328dc8e7bec33d4d5d401d37abead6e41/Sources/PackageModel/Target/PluginTarget.swift#L13
         //Cannot find 'PluginTarget' in scope
         //SwiftSourceModuleTarget.self does work.
         //let specialTargets = context.package.targets(ofType: PluginTarget.self)
