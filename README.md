@@ -1,6 +1,8 @@
 # Plugin Explorer
 
 
+See also https://www.whynotestflight.com/excuses/what-if-instead-of-a-cli-plugins-part-1-command-plugins/ 
+
 Repo for exploring how to make Package Plugins.
             
 ## Handy Commands For Running Command Plugins 
