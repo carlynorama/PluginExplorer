@@ -7,9 +7,10 @@ let package = Package(
     name: "PluginExplorer",
     platforms: [.macOS(.v13)],
     products: [
-        .executable(name:"plugin-tester", targets: ["plugin-tester"]),
+        //.executable(name:"plugin-tester", targets: ["plugin-tester"]),
         .plugin(name: "TellMeAboutYourself",
-          targets: ["TellMeAboutYourself"])
+          targets: ["TellMeAboutYourself"]),
+          .plugin(name: "MyInBuildPlugin", targets: ["MyInBuildPlugin"])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.0"),
