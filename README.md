@@ -32,7 +32,9 @@ swift package init --type command-plugin
 - Code only associated with a `.plugin` target doesn't get swept up in targets, and build problems can only be found in the build logs. Code also in its own stand alone tool does get more regular treatment. Prioritize putting as much as possible into a tool and as little a possible only in a plugin. 
 - Write the tool and get it completely working, then write the plugin.
 - stdout for a tool does not always work as expected. 
-- For two plugins to share code they need to both depend on the same executable or a binary, not a library target. [See discussion](https://forums.swift.org/t/difficulty-sharing-code-between-swift-package-manager-plugins/61690/3)
+- For two plugins to share code they need to both depend on the same executable or a binary, not a non-productized library target. [See discussion](https://forums.swift.org/t/difficulty-sharing-code-between-swift-package-manager-plugins/61690/3)
+- Adding new files to the source directory is expensive to build plugins. It will rerun not just the plugin, but regenerate every command and run the tool(s). 
+
             
 ## References
 
