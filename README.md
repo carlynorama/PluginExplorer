@@ -53,3 +53,4 @@ swift package init --type command-plugin
 - https://github.com/realm/SwiftLint/tree/main/Plugins/SwiftLintPlugin
 - https://github.com/apple/swift-docc-plugin
 - https://github.com/apple/swift-openapi-generator/tree/main/Plugins
+- https://github.com/lighter-swift
