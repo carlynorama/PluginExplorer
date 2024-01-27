@@ -10,7 +10,8 @@ let package = Package(
         //.executable(name:"plugin-tester", targets: ["plugin-tester"]),
         .plugin(name: "TellMeAboutYourself",
           targets: ["TellMeAboutYourself"]),
-          .plugin(name: "MyInBuildPlugin", targets: ["MyInBuildPlugin"])
+          .plugin(name: "MyInBuildPlugin", targets: ["MyInBuildPlugin"]),
+          .plugin(name:"ZiPFileWriter", targets: ["MyPreBuildPlugin"])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.0"),

@@ -1,5 +1,6 @@
 # Plugin Explorer
 
+//--disable-sandbox
 
 See also https://www.whynotestflight.com/excuses/what-if-instead-of-a-cli-plugins-part-1-command-plugins/ 
 
