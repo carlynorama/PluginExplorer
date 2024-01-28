@@ -12,11 +12,20 @@ import Foundation
 @main
 struct MyPreBuildPlugin:BuildToolPlugin {
     func createBuildCommands(context: PackagePlugin.PluginContext, target: PackagePlugin.Target) async throws -> [PackagePlugin.Command] {
+        
+        //allowed for sandbox
         //let outputDir = context.pluginWorkDirectory
-        let outputDir = context.package.directory.appending(["Storage"])
-
+        //not allowed for sandbox
+        //let outputDir = context.package.directory.appending(["Storage"])
+        let outputDir = Path("/Users/{---}/")
+        
+        
+        //let inputDir = Path("/Users/{---}/TestZipFolder")
+        let inputDir = target.directory
         print("from MPBP:", outputDir)
-        let result:[PackagePlugin.Command] =  [ zipFileCommand(outputDir: outputDir, folderToZip: target.directory)]
+        let result:[PackagePlugin.Command] =  [ zipFileCommand(outputDir: outputDir, folderToZip: inputDir)]
+        
+        print("From MPBP: to zip \(inputDir)")
         
         //works in that it makes files and deletes them, but problematic b/c running
         //it creates copy resources warnings & errors e.g.
