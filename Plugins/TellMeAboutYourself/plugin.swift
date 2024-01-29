@@ -65,12 +65,10 @@ struct TellMeAboutYourself: CommandPlugin {
                 })
             }
         }
-
-        
         
         message.append("\n\n\n--------------------------------------------------------------------")
         message.append("\nDUMPS\n")
-
+        
         //message.append("\(context)")
         //message.append("\nsourceModules: \(context.package.sourceModules)")
         //message.append("\nproducts:\(context.package.products)")
@@ -78,9 +76,6 @@ struct TellMeAboutYourself: CommandPlugin {
         
         //let sources = targets.map({ $0.sourceModule?.sourceFiles })
         //message.append("\n\nsourceFiles:\(sources)")
-        
-
-        
         
         let location = context.package.directory.appending([fileName])
         try writeToFile(location: location, content: message)
@@ -91,3 +86,70 @@ struct TellMeAboutYourself: CommandPlugin {
     }
 }
 
+
+#if canImport(XcodeProjectPlugin)
+import XcodeProjectPlugin
+
+extension TellMeAboutYourself: XcodeCommandPlugin {
+    func performCommand(context: XcodeProjectPlugin.XcodePluginContext, arguments: [String]) throws {
+   
+        
+        let fileName = "WhatThePluginSees" + ".txt"
+        
+        var message = "Arguments Info"
+        message.append("\narguments:\(arguments)")
+        var argExtractor = ArgumentExtractor(arguments)
+        message.append("\nargument extractor:\(argExtractor)")
+        let targetNames = argExtractor.extractOption(named: "target")
+        message.append("\nextracted names:\(targetNames)")
+        
+        message.append("\n\nContext Info")
+        message.append("\nworkDirectory: \(context.pluginWorkDirectory)")
+        
+        message.append("\n\nPackage Info")
+        message.append("\nNot available in XCode")
+        
+        message.append("\n\nXodeProject Info")
+        let project = context.xcodeProject
+        
+        message.append("\ndirectory: \(context.xcodeProject.directory)")
+        
+        message.append("\nfilePaths: \(context.xcodeProject.filePaths)")
+        message.append("\nall targets:\(context.xcodeProject.targets.map({$0.displayName}))")
+        
+        //Nope. No plugins in here.
+        let targets = context.xcodeProject.targets
+        let targetDirectories = targets.map({"\n\($0.displayName) of type \(String(describing: $0.product))"})
+        for dir in targetDirectories {
+            message.append(dir)
+        }
+        
+        message.append("\n\nSwift Source Files")
+        let packageDir = context.xcodeProject.directory.lastComponent
+        for target in targets {
+            //let targetDir = target.directory.lastComponent
+               let sourceList = target.inputFiles.filter({$0.type == .source})
+                sourceList.forEach({ sourceFile in
+                    let fullPath = sourceFile.path.string
+                    let range = fullPath.firstRange(of: "\(packageDir)")
+                    let pathStart = range?.lowerBound ?? fullPath.startIndex
+                    let relativePath = fullPath.suffix(from: pathStart)
+                    message.append("\n\(relativePath) \ttype:\(sourceFile.type)")
+                })
+        
+        }
+        
+        
+        
+        message.append("\n\n\n--------------------------------------------------------------------")
+        message.append("\nDUMPS\n")
+        
+        //message.append("\(context)")
+        
+        let location = context.xcodeProject.directory.appending([fileName])
+        try writeToFile(location: location, content: message)
+    }
+    
+}
+
+#endif

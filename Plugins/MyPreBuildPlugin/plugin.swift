@@ -12,18 +12,20 @@ import Foundation
 @main
 struct MyPreBuildPlugin:BuildToolPlugin {
     func createBuildCommands(context: PackagePlugin.PluginContext, target: PackagePlugin.Target) async throws -> [PackagePlugin.Command] {
-        let outputDir = context.pluginWorkDirectory//.appending(["snapshot.zip"])
-        let folder = target.directory.lastComponent
-        let zipNCleanCommand = "cd \(target.directory.removingLastComponent().string) && zip -r \(outputDir)/snapshot_$(date +'%Y-%m-%dT%H-%M-%S').zip \(folder) && cd - && cd \(outputDir) && ls -1t | tail -n +6 | xargs rm -f"
-        //let zipCommand = "cd \(target.directory.removingLastComponent().string) && zip -r \(outputDir)/snapshot_$(date +'%Y-%m-%dT%H-%M-%S').zip \(folder)"
+        
+        //allowed for sandbox
+        let outputDir = context.pluginWorkDirectory
+        //not allowed for sandbox
+        //let outputDir = context.package.directory.appending(["Storage"])
+        //let outputDir = Path("/Users/{---}/")
+        
+        
+        //let inputDir = Path("/Users/{---}/TestZipFolder")
+        let inputDir = target.directory
         print("from MPBP:", outputDir)
-        let result:[PackagePlugin.Command] =  [.prebuildCommand(
-            displayName: "------------ MyPreBuildPlugin ------------",
-            executable: .init("/bin/zsh"), //also Path("/bin/zsh")
-            arguments: ["-c", zipNCleanCommand],
-            //environment: [:], manually clearing the environment did not help
-            outputFilesDirectory: outputDir)
-        ]
+        let result:[PackagePlugin.Command] =  [ zipFileCommand(outputDir: outputDir, folderToZip: inputDir)]
+        
+        print("From MPBP: to zip \(inputDir)")
         
         //works in that it makes files and deletes them, but problematic b/c running
         //it creates copy resources warnings & errors e.g.
@@ -37,10 +39,25 @@ struct MyPreBuildPlugin:BuildToolPlugin {
         
         //Have moved the ls and echo tests to ScreamIntoTheVoid plugin for more testing.
         
-        
-        
         return result
     }
+    
+    
+    func zipFileCommand(outputDir:Path, folderToZip:Path) -> PackagePlugin.Command {
+        let parentDirectory = folderToZip.removingLastComponent().string
+        let folderOnly = folderToZip.lastComponent
+        let zipNCleanCommand = "cd \(parentDirectory) && zip -r \(outputDir)/snapshot_$(date +'%Y-%m-%dT%H-%M-%S').zip \(folderOnly) && cd - && cd \(outputDir) && ls -1t | tail -n +6 | xargs rm -f"
+        //let zipCommand = "cd \(target.directory.removingLastComponent().string) && zip -r \(outputDir)/snapshot_$(date +'%Y-%m-%dT%H-%M-%S').zip \(folder)"
+        
+        return .prebuildCommand(
+            displayName: "------------ MyPreBuildPlugin ------------",
+            executable: .init("/bin/zsh"), //also Path("/bin/zsh")
+            arguments: ["-c", zipNCleanCommand],
+            //environment: [:], manually clearing the environment did not help
+            outputFilesDirectory: outputDir)
+        
+    }
+    
     
     //WARNING: Only works if no spaces in file names.
     func removeExcessFiles(directory:Path) -> PackagePlugin.Command {
@@ -55,6 +72,24 @@ struct MyPreBuildPlugin:BuildToolPlugin {
     
     
 }
+
+
+#if canImport(XcodeProjectPlugin)
+import XcodeProjectPlugin
+
+extension MyPreBuildPlugin: XcodeBuildToolPlugin {
+    // Entry point for creating build commands for targets in Xcode projects.
+    func createBuildCommands(context: XcodePluginContext, target: XcodeTarget) throws -> [Command] {
+        let outputDir = context.pluginWorkDirectory//xcodeProject.directory.removingLastComponent().appending(["Storage"])
+        let folderToZip = context.xcodeProject.directory.appending([target.displayName])//package.directory.appending(["Storage"])
+
+       print("from MPBP:", outputDir)
+       return [ zipFileCommand(outputDir: outputDir, folderToZip: folderToZip)]
+    }
+}
+
+#endif
+
 
 
 //------------------------------ MORE STORAGE

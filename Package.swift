@@ -7,9 +7,11 @@ let package = Package(
     name: "PluginExplorer",
     platforms: [.macOS(.v13)],
     products: [
-        .executable(name:"plugin-tester", targets: ["plugin-tester"]),
+        //.executable(name:"plugin-tester", targets: ["plugin-tester"]),
         .plugin(name: "TellMeAboutYourself",
-          targets: ["TellMeAboutYourself"])
+          targets: ["TellMeAboutYourself"]),
+          .plugin(name: "MyInBuildPlugin", targets: ["MyInBuildPlugin"]),
+          .plugin(name:"ZiPFileWriter", targets: ["MyPreBuildPlugin"])
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.0"),
@@ -37,6 +39,15 @@ let package = Package(
         .plugin(name: "MyPreBuildPlugin", capability: .buildTool()),
         
         //prebuild tool to test running echo in its own script.
-        .plugin(name: "ScreamIntoTheVoid", capability: .buildTool())
+        .plugin(name: "ScreamIntoTheVoid", capability: .buildTool()),
+        
+        //WILL NOT WORK for this target. Template only.
+        .plugin(
+            name: "BuildNRun",
+            capability: .command(intent: .custom(
+                verb: "bnr",
+                description: "Customizable starter plugin for doing work before starting a build."
+            ))
+        ),
     ]
 )
