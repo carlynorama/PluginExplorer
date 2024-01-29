@@ -39,6 +39,15 @@ let package = Package(
         .plugin(name: "MyPreBuildPlugin", capability: .buildTool()),
         
         //prebuild tool to test running echo in its own script.
-        .plugin(name: "ScreamIntoTheVoid", capability: .buildTool())
+        .plugin(name: "ScreamIntoTheVoid", capability: .buildTool()),
+        
+        //WILL NOT WORK for this target. Template only.
+        .plugin(
+            name: "BuildNRun",
+            capability: .command(intent: .custom(
+                verb: "bnr",
+                description: "Customizable starter plugin for doing work before starting a build."
+            ))
+        ),
     ]
 )
