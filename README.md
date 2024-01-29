@@ -1,10 +1,26 @@
 # Plugin Explorer
 
-//--disable-sandbox
 
 See also https://www.whynotestflight.com/excuses/what-if-instead-of-a-cli-plugins-part-1-command-plugins/ 
 
+[BPE]: https://github.com/carlynorama/BuildPluginExample/ "repo for the plugin"
+[BPET]: https://github.com/carlynorama/BuildPluginExampleTarget/ "repo for the cli that imports the plugin"
+
+[PT1]: https://www.whynotestflight.com/excuses/what-if-instead-of-a-cli-plugins-part-1-command-plugins/ 
+[PT2]: https://www.whynotestflight.com/excuses/what-if-instead-of-a-cli-plugins-part-2-start-a-build-plugin/
+[PT3]: https://www.whynotestflight.com/excuses/what-if-instead-of-a-cli-plugins-part-3-the-actual-code-gen/
+[PT4]: https://www.whynotestflight.com/excuses/what-if-instead-of-a-cli-plugins-part-4-prebuild-plugins-misc/
+
 Repo for exploring how to make Package Plugins.
+
+## Plugins
+
+- **TellMeAboutYourself**: Command Plugin. Write a report about the target to a file at the top level of the target. Discussed in WhyNoTestFlight plugin series [part 1][PT1]
+- **MyInBuildPlugin**: Makes code based on text files. See also [BuildPluginExample][BPE] and [BuildPluginExample][BPET], Discussed on WhyNotTestFlight [Start Up][PT2], [Code Gen][PT3]
+- **MyPreBuildPlugin**: Experiments in making zip files and where they can be put. Discussed on plugin series [part 4][PT4]
+- **ScreamIntoTheVoid**: Trying to figure out where all the pipes are (STOUT, STDERR for plugin, for tool, etc.). WIP. 
+- **BuildNRun**: Also [part 4][PT4]. A command plugin that manages a build via the packageManager proxy. 
+
             
 ## Handy Commands For Running Command Plugins 
 
@@ -12,6 +28,7 @@ Repo for exploring how to make Package Plugins.
 swift package plugin --list
 swift package $PLUGIN_VERB
 swift package --allow-writing-to-package-directory $PLUGIN_VERB
+swift package --disable-sandbox $PLUGIN_VERB
 ```
 
 # Handy Commands for Generating Projects
@@ -24,7 +41,7 @@ swift package init --type command-plugin
 
 ## Handy Rules of Thumb
 
-- run on demand: command plugin
+- run on demand, makes edits to source/package folder: command plugin
 - run only if resources are missing or stale: build plugin
 - run every build, before the build: pre-build plugin
 
@@ -57,3 +74,5 @@ swift package init --type command-plugin
 - https://github.com/apple/swift-docc-plugin
 - https://github.com/apple/swift-openapi-generator/tree/main/Plugins
 - https://github.com/lighter-swift
+
+
