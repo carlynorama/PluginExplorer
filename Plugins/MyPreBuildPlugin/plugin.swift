@@ -14,10 +14,10 @@ struct MyPreBuildPlugin:BuildToolPlugin {
     func createBuildCommands(context: PackagePlugin.PluginContext, target: PackagePlugin.Target) async throws -> [PackagePlugin.Command] {
         
         //allowed for sandbox
-        //let outputDir = context.pluginWorkDirectory
+        let outputDir = context.pluginWorkDirectory
         //not allowed for sandbox
         //let outputDir = context.package.directory.appending(["Storage"])
-        let outputDir = Path("/Users/{---}/")
+        //let outputDir = Path("/Users/{---}/")
         
         
         //let inputDir = Path("/Users/{---}/TestZipFolder")
